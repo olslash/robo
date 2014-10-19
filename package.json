@@ -1,0 +1,34 @@
+{
+  "name": "robo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "phaser": "^2.1.1",
+    "socket.io": "^1.1.0",
+    "underscore": "^1.7.0"
+  },
+  "devDependencies": {
+    "browserify": "^5.11.2",
+    "del": "^0.1.3",
+    "gulp": "^3.8.8",
+
+    "gulp-jshint": "^1.8.4",
+    "gulp-notify": "^1.6.0",
+
+    "vinyl-source-stream": "^1.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/olslash/robo.git"
+  },
+  "author": "Mitch Robb",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/olslash/robo/issues"
+  },
+  "homepage": "https://github.com/olslash/robo"
+}
