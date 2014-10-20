@@ -6,6 +6,7 @@ Preloader.preload = function() {
   this.game.load.image('green32', 'game/assets/green32.png');
   this.game.load.image('orange32', 'game/assets/orange32.png');
   this.game.load.image('red32', 'game/assets/red32.png');
+  this.game.load.image('grid96', 'game/assets/grid96.png');
 };
 
 Preloader.create = function() {
