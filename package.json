@@ -12,10 +12,9 @@
     "browserify": "^5.11.2",
     "del": "^0.1.3",
     "gulp": "^3.8.8",
-
+    "gulp-coffeeify": "^0.1.2",
     "gulp-jshint": "^1.8.4",
     "gulp-notify": "^1.6.0",
-
     "vinyl-source-stream": "^1.0.0"
   },
   "scripts": {

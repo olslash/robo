@@ -1,5 +1,5 @@
 var gulp = require('gulp'),
-  browserify = require('browserify'),
+  coffeeify = require('gulp-coffeeify'),
   source = require('vinyl-source-stream'),
   jshint = require('gulp-jshint'),
   // uglify = require('gulp-uglify'),
@@ -22,11 +22,16 @@ gulp.task('default', ['browserify']);
 // });
 
 gulp.task('browserify', function() {
-  return browserify('./game/game.js')
-    .bundle()
-    .pipe(source('app.js'))
-    .pipe(gulp.dest('./build/'))
-    .pipe(notify({ message: 'Browserify task complete' }));
+  // return browserify('./game/game.coffee')
+  //   .bundle()
+  //   .pipe(source('app.js'))
+  //   .pipe(gulp.dest('./build/'))
+  //   .pipe(notify({ message: 'Browserify task complete' }));
+
+  return gulp.src('./game/game.coffee')
+        .pipe(coffeeify())
+        .pipe(gulp.dest('./build'))
+        .pipe(notify({ message: 'Browserify task complete' }));
 });
 
 gulp.task('clean', function(cb) {
@@ -39,7 +44,7 @@ gulp.task('watch', function() {
   // gulp.watch('src/styles/**/*.scss', ['styles']);
 
   // Watch .js files
-  gulp.watch('game/**/*.js', ['browserify']);
+  gulp.watch('game/**/*.coffee', ['browserify']);
 
   // Watch image files
   // gulp.watch('src/images/**/*', ['images']);
