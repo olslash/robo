@@ -2,10 +2,12 @@ ControlElement = require './ControlElement'
 
 class Button extends ControlElement
   constructor: (@text) ->
-    super()
+    super(@text)
 
     @id = null
 
     @controlState = {
       pressed: false
     }
+
+module.exports = Button

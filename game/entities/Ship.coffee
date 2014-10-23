@@ -5,8 +5,8 @@ class Ship extends Phaser.Sprite
     @modules = [[], [], []]
 
     @energyRemaining = 100
-    @topSpeed = 0
-    # @turnrate = 5
+    @maxThrust = 0
+    @turnRate = 15
 
     @anchor.setTo(0.5, 0.5)
     @scale.setTo(1, 1)
@@ -23,6 +23,8 @@ class Ship extends Phaser.Sprite
 
       @game.add.existing(module)
       @addChild(module)
+
+      module.doSetup(this)
       return true
 
     return false
@@ -51,10 +53,17 @@ class Ship extends Phaser.Sprite
       for module in row
         module?.update()
 
-
-    if @game.input.mousePointer.isDown
-      @game.physics.arcade.moveToPointer(this, @topSpeed);
+    if (@game.cursors.left.isDown)
+      @body.rotateLeft(@turnRate)
+    else if (@game.cursors.right.isDown)
+      @body.rotateRight(@turnRate)
     else
-      # @body.velocity.setTo(0, 0);
+      @body.setZeroRotation()
+
+    if (@game.cursors.up.isDown)
+      console.log('thrust', @maxThrust)
+      @body.thrust(@maxThrust)
+    else if (@game.cursors.down.isDown)
+      @body.reverse(@maxThrust)
 
 module.exports = Ship

@@ -1,9 +1,9 @@
 class ControlElement
   constructor: (@text) ->
+    @text or= "button"
     @id = null
     @el = null
     @htmlClass = "button"
-    @text = "button"
     @controlState = {}
 
   render: ->

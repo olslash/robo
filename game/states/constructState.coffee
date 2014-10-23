@@ -13,10 +13,11 @@ Construct.create = ->
 
   @game.physics.startSystem(Phaser.Physics.P2JS)
   @game.physics.p2.defaultRestitution = 5.0;
-  console.log Ship
   @ship = new Ship(@game, 100, 100)
   
   @game.add.existing(@ship)
+
+  @game.cursors = @game.input.keyboard.createCursorKeys()
 
 Construct.testModule = ->
   aModule = new Thruster(@game)
