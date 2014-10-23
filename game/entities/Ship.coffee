@@ -5,11 +5,13 @@ class Ship extends Phaser.Sprite
     @modules = [[], [], []]
 
     @energyRemaining = 100
+    @topSpeed = 0
+    # @turnrate = 5
 
     @anchor.setTo(0.5, 0.5)
     @scale.setTo(1, 1)
 
-    @game.physics.enable(this, Phaser.Physics.ARCADE)
+    @game.physics.p2.enable(this)
 
   installModule: (module, x, y) ->
     if @moduleSlotIsFree(x, y) and @canSupportModule(module)
@@ -51,8 +53,8 @@ class Ship extends Phaser.Sprite
 
 
     if @game.input.mousePointer.isDown
-      @game.physics.arcade.moveToPointer(this, 400);
+      @game.physics.arcade.moveToPointer(this, @topSpeed);
     else
-      @body.velocity.setTo(0, 0);
+      # @body.velocity.setTo(0, 0);
 
 module.exports = Ship

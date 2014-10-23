@@ -28,10 +28,15 @@ gulp.task('browserify', function() {
   //   .pipe(gulp.dest('./build/'))
   //   .pipe(notify({ message: 'Browserify task complete' }));
 
-  return gulp.src('./game/game.coffee')
+  gulp.src('./game/game.coffee')
         .pipe(coffeeify())
         .pipe(gulp.dest('./build'))
-        .pipe(notify({ message: 'Browserify task complete' }));
+        .pipe(notify({ message: 'Game Browserify task complete' }));
+
+  gulp.src('./controller/RoboPhone.coffee')
+      .pipe(coffeeify())
+      .pipe(gulp.dest('./build'))
+      .pipe(notify({message: 'Controller Browserify task complete'}));
 });
 
 gulp.task('clean', function(cb) {
@@ -44,7 +49,7 @@ gulp.task('watch', function() {
   // gulp.watch('src/styles/**/*.scss', ['styles']);
 
   // Watch .js files
-  gulp.watch('game/**/*.coffee', ['browserify']);
+  gulp.watch('**/*.coffee', ['browserify']);
 
   // Watch image files
   // gulp.watch('src/images/**/*', ['images']);
