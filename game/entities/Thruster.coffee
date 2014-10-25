@@ -3,7 +3,7 @@ Button = require '../../controller/ControlElements/Button'
 
 class Thruster extends Module
   constructor: (@game) ->
-    super(@game)
+    super(@game, 'cyan32')
 #    @control = new Button("hi mom")
     @energyRequired = 10
 
@@ -11,6 +11,9 @@ class Thruster extends Module
 
   doSetup: (@ship) ->
     @ship.maxThrust += @thrustModifier
+
+  doTeardown: (@ship) ->
+    @ship.maxThrust -= @thrustModifier
 
   doAction: ->
     # some kind of afterburner i guess

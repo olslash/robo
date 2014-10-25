@@ -1,6 +1,7 @@
 class Module extends Phaser.Sprite
-  constructor: (@game) ->
-    super(@game, 0, 0, 'green32', 0)
+  constructor: (@game, {@asset}) ->
+    @asset or= 'green32'
+    super(@game, 0, 0, @asset, 0)
     @ship = null # the ship we're installed on -- usually set by doSetup
     @control = null # an instance of a control type-- like a button or a slider, that will control this module
 
@@ -13,6 +14,9 @@ class Module extends Phaser.Sprite
 
   doSetup: (@ship) ->
     # perform any actions on the ship-- like modify its movement properties
+
+  doTeardown: (@ship) ->
+    # reverse setup
 
   doAction: ->
     # do a special action -- like increase movement speed for 10 seconds
