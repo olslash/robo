@@ -1,3 +1,4 @@
+Menu     = require '../entities/menu'
 Ship     = require '../../game/entities/Ship'
 Thruster = require '../../game/entities/Thruster'
 Module   = require '../../game/entities/Module'
@@ -9,46 +10,86 @@ Construct = new Phaser.State()
 Construct.preload = ->
 
 Construct.create = ->
-  @doThingButton = @add.button(100, 100, 'blue32', @testModule, this)
-  @doThing2Button = @add.button(100, 200, 'orange32', @test2Module, this)
-#  @doThing3Button = @add.button(100, 250, 'red32', @test3Module, this)
-
 #  @game.physics.startSystem(Phaser.Physics.P2JS)
 #  @game.physics.p2.defaultRestitution = 0.8;
-
+#  console.log @game.cache.getImage('blue32').naturalHeight
   @modelShip = new Ship(@game, @game.width/2, @game.height/2)
   # fill the model ship with "modules" that open the installation menu
-  constructionHelpers.fillShipWithTapHandlerModules(@game, @modelShip, {onTapAction: @openModuleSelectionMenu})
-  # need a function flow to
-  # > open module select menu -> pass the result of that menu (user selection)
-  # -> install the selected module on the ship in the location the user tapped, removing any existing module
-  # -> close the menu
-  #
-  # click module -> module asks ship "where am i?"
+  constructionHelpers.fillShipWithTapHandlerModules(@game, @modelShip,
+    {onTapAction: @openModuleSelectionMenu.bind(this)})
 
   @game.add.existing(@modelShip)
-
-#  @game.cursors = @game.input.keyboard.createCursorKeys()
+# need a function flow to
+# > open module select menu -> pass the result of that menu (user selection)
+# -> install the selected module on the ship in the location the user tapped, removing any existing module
+# -> close the menu
 #
-Construct.testModule = ->
-  aModule = new Thruster(@game)
-  @modelShip.installModule(aModule, 0, 0)
+# click module -> module asks ship "where am i?"
+  @buildMenu = new Menu(@game, {itemSpriteSize: [128, 32]}) #, top: 40, left: 40})
 
-Construct.test2Module = ->
-  @modelShip.removeModuleAt(0, 0)
-#  aModule = new Thruster(@game)
-#  @modelShip.installModule(aModule, 1, 0)
+  categorySelectState = @buildMenu.addState({
+    id: 'categorySelectState',
+    onEnterState: ->
+    onLeaveState: ->
+  })
 #
-#Construct.test3Module = ->
-#  aModule = new Thruster(@game)
-#  @modelShip.installModule(aModule, 0, 2)
+  categorySelectState.addItem({
+    type: 'textButton',
+    text: 'MOVEMENT',
+    sprite: 'redlongbutton',
+    onClick: =>
+      @buildMenu.transitionToState('movementSelectState') # states should have handlers for enter/leave
+  })
+
+  categorySelectState.addItem({
+    type: 'textButton',
+    text: 'WEAPONS',
+    sprite: 'yellowlongbutton',
+    onClick: =>
+      @buildMenu.transitionToState('weaponSelectState') # states should have handlers for enter/leave
+  })
+#
+#  movementSelectState = @buildMenu.addState({
+#    id: 'movementSelectState'
+#  })
+#
+#  cannonSelectButton = movementSelectState.addItem({
+#    type: 'imgButton',
+#    text: 'CANNON',
+#    sprite: 'yellowlongbutton',
+#    thumbnail: 'blue32',
+#    onClick: ->
+#      console.log @buildMenu.currentShowingData.modulePositionInShip
+#      # install the cannon module into the ship
+#  })
+
+
+Construct.openModuleSelectionMenu = (callingModule) ->
+  @buildMenu.show({
+    initialState: 'categorySelectState',
+
+    position: {
+      top: 40,
+      left: 40
+    },
+
+    currentShowingData: {
+      ship: @modelShip,
+      shipEnergyAvailable: @modelShip.energyRemaining,
+      modulePositionInShip: callingModule.positionInstalledInShip
+    }
+  })
+
+# how do I check whether a given module (represented by a menu) can be installed on a ship, except for energy?
+# like if I want to enforce different placement criteria by module?
+
+# maybe the menu gets a verification function?
+
 
 Construct.render = ->
   @game.debug.pointer(@game.input.mousePointer)
   @game.debug.pointer(@game.input.pointer1)
 
-Construct.openModuleSelectionMenu = (callingModule) ->
-  [x, y] = callingModule.positionInstalledInShip
-  console.log 'cool, you moused over a module installed at ', x, y
+
 
 module.exports = Construct

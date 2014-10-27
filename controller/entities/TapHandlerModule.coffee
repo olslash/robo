@@ -5,13 +5,18 @@ class TapHandlerModule extends Module
     super(@game, 'green32')
     @energyRequired = 0
 
-    @inputEnabled = true
-
+    @inputEnabled = true # tells Phaser to watch for input events on this sprite
+    @canActivate = true
   doAction: ->
-      @onTapAction(this)
+    @onTapAction(this)
 
   update: ->
-    @doAction() if @input.pointerOver()
+    if @canActivate and @input.pointerDown()
+      @doAction()
+      @canActivate = false # prevent a call every frame if button held
+
+    if not @canActivate and @input.pointerUp()
+      @canActivate = true
 
 
 

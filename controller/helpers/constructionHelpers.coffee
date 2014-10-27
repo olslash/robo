@@ -1,8 +1,8 @@
 TapHandlerModule = require '../entities/TapHandlerModule'
 
 module.exports.fillShipWithTapHandlerModules = (game, ship, params) ->
-  for row, x in ship.schema
-    for moduleSlot, y in row
+  for row, y in ship.schema
+    for moduleSlot, x in row
       if moduleSlot == true
         params.positionInstalledInShip = [x, y]
         newModule = new TapHandlerModule(game, params)
