@@ -29,39 +29,46 @@ Construct.create = ->
 
   categorySelectState = @buildMenu.addState({
     id: 'categorySelectState',
-    onEnterState: ->
-    onLeaveState: ->
+#    onEnterState: ->
+#    onLeaveState: ->
   })
 #
   categorySelectState.addItem({
-    type: 'textButton',
-    text: 'MOVEMENT',
+#    type: 'textButton',
+#    text: 'MOVEMENT',
     sprite: 'redlongbutton',
     onClick: =>
       @buildMenu.transitionToState('movementSelectState') # states should have handlers for enter/leave
   })
 
   categorySelectState.addItem({
-    type: 'textButton',
-    text: 'WEAPONS',
+#    type: 'textButton',
+#    text: 'WEAPONS',
     sprite: 'yellowlongbutton',
     onClick: =>
       @buildMenu.transitionToState('weaponSelectState') # states should have handlers for enter/leave
   })
 #
-#  movementSelectState = @buildMenu.addState({
-#    id: 'movementSelectState'
-#  })
+  movementSelectState = @buildMenu.addState({
+    id: 'movementSelectState'
+  })
 #
-#  cannonSelectButton = movementSelectState.addItem({
-#    type: 'imgButton',
-#    text: 'CANNON',
-#    sprite: 'yellowlongbutton',
+  movementSelectState.addItem({
+    sprite: 'brownlongbutton',
 #    thumbnail: 'blue32',
-#    onClick: ->
-#      console.log @buildMenu.currentShowingData.modulePositionInShip
-#      # install the cannon module into the ship
-#  })
+    onClick: =>
+      console.log @buildMenu.currentShowingData.modulePositionInShip
+      # install the cannon module into the ship
+  })
+
+  movementSelectState.addItem({
+      sprite: 'redlongbutton',
+#      thumbnail: 'blue32',
+      onClick: =>
+        console.log @buildMenu.currentShowingData.modulePositionInShip
+        # install the cannon module into the ship
+    })
+
 
 
 Construct.openModuleSelectionMenu = (callingModule) ->

@@ -1,6 +1,5 @@
 class Menu
   constructor: (@game, {@itemSpriteSize}) ->
-    # with width and height of a single menu item
     @states = {}
 
   addState: ({id, onEnterState, onLeaveState}) ->
@@ -8,15 +7,23 @@ class Menu
 
   transitionToState: (stateName) ->
     console.log 'transition to', stateName
-    @states[stateName].render()
+    # does this need to be different from @show()?
+    @_closeOpenState()
+    @states[stateName].render({@position, @currentShowingData})
 
-  show: ({initialState, position, currentShowingData}) ->
+  show: ({initialState, @position, @currentShowingData}) ->
+    @_closeOpenState()
+    @states[initialState].render({@position, @currentShowingData})
+
+  clear: ->
+    @currentShowingData = {}
+    @position = {}
+    @_closeOpenState()
+
+  _closeOpenState: ->
     # close any open state
     for state of @states
-      @states[state].hide()
-
-    @states[initialState].render({position, currentShowingData})
-
+      @states[state].hide() if @states[state].isCurrentlyDisplayed
 
 
 class MenuState
@@ -27,7 +34,7 @@ class MenuState
     @parentSprite.kill()
     @game.add.existing(@parentSprite)
 
-    # make an invisible parent container sprite
+    @isCurrentlyDisplayed = false
 
   addItem: ({type, text, sprite, onClick}) ->
     # make a button sprite, add it to the next avialable button slot in the parent container
@@ -35,17 +42,20 @@ class MenuState
     buttonToAdd = new Phaser.Button(@game, 0, 0, sprite, onClick)
     @parentSprite.addChild(buttonToAdd)
     buttonToAdd.y = (@itemSpriteSize[1] * @parentSprite.children.length) - 32
-#    console.log @parentSprite.children
 
 
   render: ({position, currentShowingData}) ->
-    #move to position
     @parentSprite.y = position.top
     @parentSprite.x = position.left
+
     @parentSprite.revive()
+    @isCurrentDisplayed = true
+    @onEnterState?()
 
   hide: ->
     console.log 'kill', @id
+    @onLeaveState?()
     @parentSprite.kill()
+    @isCurrentDisplayed = false
 
 module.exports = Menu
