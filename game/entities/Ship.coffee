@@ -60,7 +60,8 @@ class Ship extends Phaser.Sprite
   update: ->
     for row in @moduleSlots
       for module in row
-        module.update?()
+        module?.update()
+    return true # coffeescript does some crazy stuff if I don't do this
 
 #    if (@game.cursors.left.isDown)
 #      @body.rotateLeft(@turnRate)
