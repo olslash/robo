@@ -3,17 +3,19 @@ Button = require '../../controller/ControlElements/Button'
 
 class Thruster extends Module
   constructor: (@game) ->
-    super(@game, 'cyan32')
+    super(@game, asset: 'thruster')
 #    @control = new Button("hi mom")
-    @energyRequired = 10
+    @energyRequired = 75
 
     @thrustModifier = 100
 
   doSetup: (@ship) ->
-    @ship.maxThrust += @thrustModifier
+    # instead, thruster itself should listen to control signals from the ship. thrust applied to module. should work
+    # better for off-balance thrust and positioning
+#    @ship.maxThrust += @thrustModifier
 
   doTeardown: (@ship) ->
-    @ship.maxThrust -= @thrustModifier
+#    @ship.maxThrust -= @thrustModifier
 
   doAction: ->
     # some kind of afterburner i guess

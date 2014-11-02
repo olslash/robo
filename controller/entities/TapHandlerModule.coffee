@@ -2,7 +2,7 @@ Module = require '../../game/entities/Module'
 
 class TapHandlerModule extends Module
   constructor: (@game, {@onTapAction, @positionInstalledInShip}) ->
-    super(@game, 'green32')
+    super(@game, asset: 'circles')
     @energyRequired = 0
 
     @inputEnabled = true # tells Phaser to watch for input events on this sprite

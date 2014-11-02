@@ -21,28 +21,34 @@ class Ship extends Phaser.Sprite
       @moduleSlots[x][y] = module
       
       slotPixelCoordinates = @getSlotPixelCoordinates(x, y)
-
       module.moveTo(slotPixelCoordinates[0], slotPixelCoordinates[1])
 
       @game.add.existing(module)
       @addChild(module)
 
       module.doSetup(this)
+      @energyRemaining -= module.energyRequired
       return true
 
     return false
 
   removeModuleAt: (x, y) ->
     @moduleSlots[x][y].doTeardown(this)
+    @energyRemaining -= @moduleSlots[x][y].energyRequired
     @moduleSlots[x][y].destroy()
-    @moduleSlots[x][y] = false
+    @moduleSlots[x][y] = null
+
+  # takes N, E, S, W for 'to'
+  orientModuleAt: (x, y, {to}) ->
+    cardinal = to
+    @moduleSlots[x][y]?.orientTo(cardinal)
 
   moduleSlotIsFreeAndValid: (x, y) ->
     return true if @schema[x][y] is true and not @moduleSlots[x][y]
     false
 
-  canSupportModule: ->
-    return true # check energy or whatever
+  canSupportModule: (module)->
+    @energyRemaining > module.energyRequired
 
   getSlotPixelCoordinates: (x, y) ->
     # todo: needs to work for ship configurations other than 96x96

@@ -25,7 +25,16 @@ class Module extends Phaser.Sprite
   moveTo: (x, y) ->
     # position the module on the ship's grid
     [@x, @y] = [x, y]
-  
+
+  orientTo: (direction) ->
+    # N S W E
+    @angle = switch direction.toLowerCase()
+      when 'n' then 0
+      when 's' then 180
+      when 'w' then -90
+      when 'e' then 90
+
+
   update: ->
     # any code that needs to be run every game tick
 
