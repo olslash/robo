@@ -1,8 +1,9 @@
 class Ship extends Phaser.Sprite
-  constructor: (@game, x, y) ->
+  constructor: (@game, x, y, {@shipModelName} = {}) ->
+    @shipModelName ?= 'base'
     super(@game, x, y, 'grid96', 0)
 
-    @energyRemaining = 100
+    @energyRemaining = 1000
     @maxThrust = 0
     @turnRate = 15
 
@@ -68,6 +69,18 @@ class Ship extends Phaser.Sprite
       for module in row
         module?.update()
     return true # coffeescript does some crazy stuff if I don't do this
+
+  serialize: ->
+    shipData = {
+      shipModelName: @shipModelName
+      modules: {}
+    }
+
+    for row, y in @moduleSlots
+      for module, x in row
+        shipData.modules[x + ',' + y] = module?.serialize()
+
+    console.log JSON.stringify(shipData)
 
 #    if (@game.cursors.left.isDown)
 #      @body.rotateLeft(@turnRate)

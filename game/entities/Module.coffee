@@ -1,5 +1,5 @@
 class Module extends Phaser.Sprite
-  constructor: (@game, {@asset}) ->
+  constructor: (@game, {@asset, @moduleName}) ->
     @asset or= 'green32'
     super(@game, 0, 0, @asset, 0)
     @ship = null # the ship we're installed on -- usually set by doSetup
@@ -37,5 +37,11 @@ class Module extends Phaser.Sprite
 
   update: ->
     # any code that needs to be run every game tick
+
+  serialize: ->
+    moduleData = {}
+    moduleData.name = @moduleName
+    moduleData.orientation = @angle
+    return moduleData
 
 module.exports = Module
