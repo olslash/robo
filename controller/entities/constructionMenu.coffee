@@ -8,8 +8,8 @@ Thruster = require '../../game/entities/Thruster'
 #
 # click module -> module asks ship "where am i?"
 
-module.exports.init = (game, {context}) ->
-  buildMenu = new Menu(game, {itemSpriteSize: [128, 32]}) #, top: 40, left: 40})
+module.exports.init = (@game, {context}) ->
+  buildMenu = new Menu(@game, {itemSpriteSize: [128, 32]}) #, top: 40, left: 40})
 
   notifyCantInstallModule = ->
     console.log 'cant install that module there'
@@ -47,6 +47,17 @@ module.exports.init = (game, {context}) ->
       buildMenu.transitionToState('weaponSelectState') # states should have handlers for enter/leave
   })
 
+  categorySelectState.addItem({
+  #    type: 'textButton',
+  #    text: 'WEAPONS',
+    sprite: 'done_button',
+    onClick: =>
+      shipData = buildMenu.currentShowingData.ship.serialize()
+      @game.state.start('Transfer', true, false, serializedShipData: shipData)
+      #serialize and send
+#      buildMenu.transitionToState('weaponSelectState') # states should have handlers for enter/leave
+  })
+
 
 
   # MOVEMENT MODULES
@@ -60,7 +71,7 @@ module.exports.init = (game, {context}) ->
         buildMenu.transitionToState 'orientationSelectState'
       else
         notifyCantInstallModule()
-        
+
   })
 
   movementSelectState.addItem({

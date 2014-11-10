@@ -53,7 +53,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -61,5 +61,25 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-1020.3622)" />
+     transform="translate(0,-1020.3622)">
+    <rect
+       style="fill:#ff8080;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect4367"
+       width="128"
+       height="32"
+       x="0"
+       y="1020.3622" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="1"
+       y="1049.3622"
+       id="text4369"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4371"
+         x="1"
+         y="1049.3622"
+         style="font-size:35px;fill:#ffffff">Done</tspan></text>
+  </g>
 </svg>

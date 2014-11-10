@@ -1,6 +1,6 @@
 class Module extends Phaser.Sprite
   constructor: (@game, {@asset, @moduleName}) ->
-    @asset or= 'green32'
+    @asset ?= 'green32'
     super(@game, 0, 0, @asset, 0)
     @ship = null # the ship we're installed on -- usually set by doSetup
     @control = null # an instance of a control type-- like a button or a slider, that will control this module
@@ -27,12 +27,16 @@ class Module extends Phaser.Sprite
     [@x, @y] = [x, y]
 
   orientTo: (direction) ->
-    # N S W E
-    @angle = switch direction.toLowerCase()
-      when 'n' then 0
-      when 's' then 180
-      when 'w' then -90
-      when 'e' then 90
+    if typeof direction is 'string'
+      # N S W E
+      @angle = switch direction.toLowerCase()
+        when 'n' then 0
+        when 's' then 180
+        when 'w' then -90
+        when 'e' then 90
+    else if typeof direction is 'number'
+      # -180 to 180
+      @angle = direction
 
 
   update: ->
@@ -40,7 +44,7 @@ class Module extends Phaser.Sprite
 
   serialize: ->
     moduleData = {}
-    moduleData.name = @moduleName
+    moduleData.type = @moduleName
     moduleData.orientation = @angle
     return moduleData
 

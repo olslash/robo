@@ -1,11 +1,12 @@
 class Ship extends Phaser.Sprite
-  constructor: (@game, x, y, {@shipModelName} = {}) ->
+  constructor: (@game, x, y, {@shipModelName, sprite} = {}) ->
     @shipModelName ?= 'base'
-    super(@game, x, y, 'grid96', 0)
+    sprite ?= 'grid96'
+    super(@game, x, y, sprite, 0)
 
     @energyRemaining = 1000
-    @maxThrust = 0
-    @turnRate = 15
+#    @maxThrust = 0
+#    @turnRate = 15
 
     @schema = [[true, true, true],
               [true, true, true],
@@ -41,26 +42,33 @@ class Ship extends Phaser.Sprite
 
   # takes N, E, S, W for 'to'
   orientModuleAt: (x, y, {to}) ->
-    cardinal = to
-    @moduleSlots[x][y]?.orientTo(cardinal)
+    @moduleSlots[x][y]?.orientTo(to)
 
   moduleSlotIsFreeAndValid: (x, y) ->
-    return true if @schema[x][y] is true and not @moduleSlots[x][y]
+    return true if not @moduleSlots[x]?[y] and @schema[x]?[y] is true
     false
 
   canSupportModule: (module)->
     @energyRemaining > module.energyRequired
 
   getSlotPixelCoordinates: (x, y) ->
-    # todo: needs to work for ship configurations other than 96x96
-    # 0: -32
-    # 1: 0
-    # 2: 32
+    console.log 'getpixel'
+    # assumes always an odd number of rows and columns
+    # (so that anchor at 0.5/0.5 always works easily)
+    numColumns = @schema[0].length
+    numRows = @schema.length
 
-    pixelX = -32
-    pixelY = -32
+    medianColumn = Math.floor (numColumns + 1) / 2
+    medianRow = Math.floor (numRows + 1) / 2
 
-    [pixelX + (x * 32), pixelY + (y * 32)]
+    pixelX = (numRows - medianRow) * -32
+    pixelY = (numColumns - medianColumn) * -32
+
+    #fixme-- why does this have to be flipped??
+    return [pixelY + (y * 32), pixelX + (x * 32)]
+
+  moveTo: (x, y) ->
+    [@x, @y] = [x, y]
 
   updateControlState: (state) ->
 
@@ -76,27 +84,10 @@ class Ship extends Phaser.Sprite
       modules: {}
     }
 
-    for row, y in @moduleSlots
-      for module, x in row
+    for row, x in @moduleSlots
+      for module, y in row
         shipData.modules[x + ',' + y] = module?.serialize()
 
-    console.log JSON.stringify(shipData)
-
-#    if (@game.cursors.left.isDown)
-#      @body.rotateLeft(@turnRate)
-#    else if (@game.cursors.right.isDown)
-#      @body.rotateRight(@turnRate)
-#    else
-#      @body.setZeroRotation()
-#
-#    if (@game.cursors.up.isDown)
-#      console.log('thrust', @maxThrust)
-#      @body.thrust(@maxThrust)
-#    else if (@game.cursors.down.isDown)
-#      @body.reverse(@maxThrust)
-
-
-
-
+    return JSON.stringify(shipData)
 
 module.exports = Ship

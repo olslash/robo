@@ -17,6 +17,10 @@ class SocketRouter
       #notify the game that a controller has connected
       @gameSocket.emit 'controller-connected', socket.id
 
+      socket.on 'ship-data', (data) =>
+        # player has finished building their ship and has sent it to the server-- forward it to the game
+        @gameSocket.emit 'ship-data', {controller: socket.id, shipData: data}
+
       socket.on 'control-update', (data) =>
         # controller updates with its state
         # (buttons, analog inputs, etc)
