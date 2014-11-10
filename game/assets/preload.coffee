@@ -1,4 +1,5 @@
 {
+  "wedgeship": "../../game/assets/wedgeship.png",
   "grid96": "../../game/assets/grid96.png",
   "blue32": "../../game/assets/blue32.png",
   "cyan32": "../../game/assets/cyan32.png",
@@ -20,6 +21,7 @@
   "south_button": "../../game/assets/south_button.png",
   "east_button": "../../game/assets/east_button.png",
   "west_button": "../../game/assets/west_button.png",
+  "done_button": "../../game/assets/done_button.png",
   "thruster": "../../game/assets/thruster.png",
   "circles": "../../game/assets/circles.png"
 }

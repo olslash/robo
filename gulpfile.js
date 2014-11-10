@@ -33,7 +33,7 @@ gulp.task('browserify', function() {
         .pipe(gulp.dest('./build'))
         .pipe(notify({ message: 'Game Browserify task complete' }));
 
-  gulp.src('./controller/RoboPhone.coffee')
+  gulp.src('./controller/Controller.coffee')
       .pipe(coffeeify())
       .pipe(gulp.dest('./build'))
       .pipe(notify({message: 'Controller Browserify task complete'}));
