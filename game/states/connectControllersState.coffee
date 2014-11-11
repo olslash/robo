@@ -14,6 +14,8 @@ ConnectControllers.create = ->
   @game.gameId = @makeGameCode()
   @game.socket = socket 'http://localhost:8000'
 
+  @startButton = @add.button(100, 100, 'green32', @startGame, this).kill()
+
   @game.socket.on 'connect', =>
     # show the gamecode onscreen
     text = '' + @game.gameId
@@ -23,18 +25,16 @@ ConnectControllers.create = ->
     # notify server that a game was created
     @game.socket.emit 'register-game', @game.gameId
 
+  @game.socket.on 'controller-connected', @registerController.bind(this)
+  @game.socket.on 'controller-disconnected', @unregisterController.bind(this)
+
+
   # receive completed ships from players and put them into the game world
   @game.socket.on 'ship-data', (data) =>
     newShip = shipFactory.deserialize(data.shipData)
     @game.connectedControllers[data.controller].ship = newShip
     newShip.moveTo(100, 150)
     @add.existing(newShip)
-
-
-  @game.socket.on 'controller-connected', @registerController.bind(this)
-  @game.socket.on 'controller-disconnected', @unregisterController.bind(this)
-
-  @startButton = @add.button(100, 100, 'green32', @startGame, this).kill()
 
 
 ConnectControllers.update = ->
@@ -62,6 +62,7 @@ ConnectControllers.registerController = (controllerId) ->
   }
 
 ConnectControllers.unregisterController = (controllerId) ->
+  @game.connectedControllers[controllerId]?.ship?.destroy()
   delete @game.connectedControllers[controllerId]
 
 ConnectControllers.startGame = ->
