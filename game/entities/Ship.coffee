@@ -52,7 +52,6 @@ class Ship extends Phaser.Sprite
     @energyRemaining > module.energyRequired
 
   getSlotPixelCoordinates: (x, y) ->
-    console.log 'getpixel'
     # assumes always an odd number of rows and columns
     # (so that anchor at 0.5/0.5 always works easily)
     numColumns = @schema[0].length
