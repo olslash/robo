@@ -17,7 +17,6 @@ class ShipFactory
     if shipClass = entitiesData.ships[shipModelName]
       ship = new shipClass(@game, 0, 0)
 
-      console.log shipData
       for modulePosition of shipData.modules
         [x, y] = modulePosition.split(',')
 
@@ -37,6 +36,9 @@ class ShipFactory
       console.log 'deserializing error: invalid ship type'
 
   makeModule: (moduleName) ->
-
+    if moduleClass = entitiesData.modules[moduleName]
+      return new moduleClass(@game)
+    else
+      console.log 'module type not found'
 
 module.exports = ShipFactory

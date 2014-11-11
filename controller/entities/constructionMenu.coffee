@@ -1,13 +1,5 @@
 Menu = require './Menu'
 
-Thruster = require '../../game/entities/Thruster'
-# need a function flow to
-# > open module select menu -> pass the result of that menu (user selection)
-# -> install the selected module on the ship in the location the user tapped, removing any existing module
-# -> close the menu
-#
-# click module -> module asks ship "where am i?"
-
 module.exports.init = (@game, {context}) ->
   buildMenu = new Menu(@game, {itemSpriteSize: [128, 32]}) #, top: 40, left: 40})
 
@@ -66,7 +58,7 @@ module.exports.init = (@game, {context}) ->
   #    thumbnail: 'blue32',
     onClick: =>
       [x, y] = buildMenu.currentShowingData.modulePositionInShip
-      thruster = new Thruster(game)
+      thruster = @game.shipFactory.makeModule('thruster')
       if buildMenu.currentShowingData.ship.installModule(thruster, x, y)
         buildMenu.transitionToState 'orientationSelectState'
       else
