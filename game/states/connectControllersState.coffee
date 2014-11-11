@@ -10,7 +10,7 @@ ConnectControllers.preload = ->
 
 ConnectControllers.create = ->
   @game.playerManager = new PlayerManager(@game)
-  ShipFactory.setGame(@game)
+  @game.shipFactory = new ShipFactory(@game)
 
   @game.gameId = @makeGameCode()
   @game.socket = socket 'http://localhost:8000'
@@ -31,7 +31,7 @@ ConnectControllers.create = ->
 
   # receive completed ships from players and put them into the game world
   @game.socket.on 'ship-data', (data) =>
-    newShip = ShipFactory.deserialize(data.shipData)
+    newShip = @game.shipFactory.deserialize(data.shipData)
     @game.playerManager.registerShip(newShip, controllerId: data.controller)
     newShip.moveTo(100, 150)
     @add.existing(newShip)

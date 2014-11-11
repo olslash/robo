@@ -1,8 +1,8 @@
 entitiesData = require './allEntities.coffee'
 
-class shipFactory
+class ShipFactory
 #  constructor: (@game) ->
-  setGame: (@game) ->
+  constructor: (@game) ->
 
   makeShip: (shipModelName, x, y, game) ->
     if shipClass = entitiesData.ships[shipModelName]
@@ -36,5 +36,7 @@ class shipFactory
     else
       console.log 'deserializing error: invalid ship type'
 
+  makeModule: (moduleName) ->
 
-module.exports = new shipFactory()
+
+module.exports = ShipFactory

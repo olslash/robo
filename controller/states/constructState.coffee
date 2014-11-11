@@ -12,11 +12,11 @@ Construct.create = ->
 #  @game.physics.startSystem(Phaser.Physics.P2JS)
   #  @game.physics.p2.defaultRestitution = 0.8;
   #  console.log @game.cache.getImage('blue32').naturalHeight
-  ShipFactory.setGame(@game)
+  @game.shipFactory = new ShipFactory(@game)
   shipPosition = {x: @game.width/2 + 100, y: @game.height/2}
 
-  @modelShip = ShipFactory.makeShip('wedge', shipPosition.x, shipPosition.y)
-  @touchCaptureShip = ShipFactory.makeShip('wedge', shipPosition.x, shipPosition.y)
+  @modelShip = @game.shipFactory.makeShip('wedge', shipPosition.x, shipPosition.y)
+  @touchCaptureShip = @game.shipFactory.makeShip('wedge', shipPosition.x, shipPosition.y)
 
   @modelShip.scale.setTo(2, 2)
   @touchCaptureShip.scale.setTo(2, 2)
