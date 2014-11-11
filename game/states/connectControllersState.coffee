@@ -1,5 +1,6 @@
 socket = require 'socket.io-client'
-shipFactory = require '../helpers/shipFactory'
+ShipFactory = require '../helpers/ShipFactory'
+PlayerManager = require '../helpers/PlayerManager'
 
 ConnectControllers = new Phaser.State()
 
@@ -8,9 +9,9 @@ ConnectControllers.init = ->
 ConnectControllers.preload = ->
 
 ConnectControllers.create = ->
-  shipFactory.setGame(@game)
+  @game.playerManager = new PlayerManager(@game)
+  ShipFactory.setGame(@game)
 
-  @game.connectedControllers = {}
   @game.gameId = @makeGameCode()
   @game.socket = socket 'http://localhost:8000'
 
@@ -25,20 +26,19 @@ ConnectControllers.create = ->
     # notify server that a game was created
     @game.socket.emit 'register-game', @game.gameId
 
-  @game.socket.on 'controller-connected', @registerController.bind(this)
-  @game.socket.on 'controller-disconnected', @unregisterController.bind(this)
-
+  @game.socket.on 'controller-connected', @game.playerManager.registerController.bind(@game.playerManager)
+  @game.socket.on 'controller-disconnected', @game.playerManager.unregisterController.bind(@game.playerManager)
 
   # receive completed ships from players and put them into the game world
   @game.socket.on 'ship-data', (data) =>
-    newShip = shipFactory.deserialize(data.shipData)
-    @game.connectedControllers[data.controller].ship = newShip
+    newShip = ShipFactory.deserialize(data.shipData)
+    @game.playerManager.registerShip(newShip, controllerId: data.controller)
     newShip.moveTo(100, 150)
     @add.existing(newShip)
 
 
 ConnectControllers.update = ->
-  connectedPlayers = Object.keys(@game.connectedControllers)
+  connectedPlayers = Object.keys(@game.playerManager.connectedControllers)
   @updatePlayersConnectedText(connectedPlayers.length)
 
 
@@ -55,18 +55,8 @@ ConnectControllers.updatePlayersConnectedText = (numConnectedPlayers) ->
   else if numConnectedPlayers == 0 and @startButton.exists
     @startButton.kill()
 
-ConnectControllers.registerController = (controllerId) ->
-  @game.connectedControllers[controllerId] = {
-    connected: true,
-    ship: {}
-  }
-
-ConnectControllers.unregisterController = (controllerId) ->
-  @game.connectedControllers[controllerId]?.ship?.destroy()
-  delete @game.connectedControllers[controllerId]
-
 ConnectControllers.startGame = ->
-#  @game.state.start 'Play'
+  @game.state.start 'Play', false
 
 ConnectControllers.makeGameCode = ->
   Math.floor(Math.random() * 99999)
