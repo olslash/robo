@@ -89,4 +89,8 @@ class Ship extends Phaser.Sprite
 
     return JSON.stringify(shipData)
 
+  destroy: (destroyChildren, override)->
+    # don't let the game destroy a ship unless i explicitly ask
+    if override then super(destroyChildren)
+
 module.exports = Ship
