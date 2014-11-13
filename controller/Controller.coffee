@@ -1,21 +1,22 @@
+# global socket because it needs to be shared between Phaser and the controller itself
 window.socket = require('socket.io-client')('http://localhost:8000')
-
 loadGame = require './RoboPhone'
+Button = require './controlElements/Button'
 
 class Controller
-  constructor: (@socket) ->
-    @inputIds = []
+  constructor: ({@socket, el: @$el}) ->
+    console.log @$el
+    #    @inputIds = []
     @controlState = {}
-  
-  # add a button for an installed module
-  addInputModule: (inputModule) ->
-    
-    # the controller will assign a unique id, 
-    inputModule.id = _generateInputId
-    @controlState[inputModue.id] = inputModule.controlState
-    # extend our control state with the module's
 
+  # add a button for an installed module
+  addInputModule: (controlElementInstance) ->
+    #the div's id
+    controlElementInstance.id = @_generateInputId
+    # extend our control state with the module's
+    @controlState[controlElementInstance.id] = controlElementInstance.controlState
     # render the module's html and insert it into a free slot
+    @$el.append(controlElementInstance.render())
 
   sendState:  ->
     @socket.emit('control-update', @controlState)
@@ -30,12 +31,21 @@ class Controller
 
 
 
+
+
+
+
+
+
+
 $(document).ready ->
+  controller = new Controller(socket: window.socket, el: $('#controller'))
+  controller.addInputModule(new Button())
+
   socketConnected = false
 
   socket.on 'connect', ->
     socketConnected = true
-
 
   $('#gamecode').submit (event) ->
     gameCode = +$('#gamecode input:first').val()
@@ -45,13 +55,10 @@ $(document).ready ->
 
     event.preventDefault()
 
-
   socket.on 'gamecode-ok', ->
-    $('.register-screen').hide()
-    $('.controller').show()
+    $('#register-screen').hide()
+    $('#controller').show()
     loadGame()
 
   socket.on 'gamecode-bad', ->
     console.log 'error-- server reports game code was not recognized'
-
-

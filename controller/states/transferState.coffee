@@ -11,6 +11,4 @@ Transfer.create = ->
   @game.destroy()
 #  $('canvas').hide()
 
-Transfer.update = ->
-
 module.exports = Transfer

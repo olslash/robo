@@ -1,0 +1,38 @@
+#controller {
+    display: none;
+    position: relative;
+}
+
+/*#steering {*/
+    /*position: absolute;*/
+    /*height: 50px;*/
+    /*width: 50px;*/
+
+    /*top: 0px;*/
+    /*left: 0px;*/
+/*}*/
+
+/*#throttle {*/
+    /*position: absolute;*/
+    /*height: 50px;*/
+    /*width: 50px;*/
+
+    /*top: 0px;*/
+    /*right: 0px;*/
+/*}*/
+
+/*#steering-left {*/
+    /*height: 100px;*/
+/*}*/
+
+/*#throttle-down {*/
+    /*height: 100px;*/
+/*}*/
+
+/*#steering-right {*/
+    /*height: 100px;*/
+/*}*/
+
+/*#throttle-up {*/
+    /*height: 100px;*/
+/*}*/

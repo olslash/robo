@@ -1,13 +1,23 @@
 ControlElement = require './ControlElement'
 
 class Button extends ControlElement
-  constructor: (@text) ->
-    super(@text)
+  constructor: () ->
+    super()
 
-    @id = null
+    @el =
+          """
+          <div id="#{@id}" class="button">
+            this is a button
+          </div>
+          """
 
     @controlState = {
-      pressed: false
+      down: false
     }
+
+  render: ->
+    super()
+
+
 
 module.exports = Button
