@@ -4,18 +4,17 @@ class Button extends ControlElement
   constructor: () ->
     super()
 
+    @controlState = {
+      down: false
+    }
+
+  render: ->
     @el =
           """
           <div id="#{@id}" class="button">
             this is a button
           </div>
           """
-
-    @controlState = {
-      down: false
-    }
-
-  render: ->
     super()
 
 

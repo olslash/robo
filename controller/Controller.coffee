@@ -12,7 +12,8 @@ class Controller
   # add a button for an installed module
   addInputModule: (controlElementInstance) ->
     #the div's id
-    controlElementInstance.id = @_generateInputId
+    controlElementInstance.id = @_generateInputId()
+    console.log controlElementInstance.id
     # extend our control state with the module's
     @controlState[controlElementInstance.id] = controlElementInstance.controlState
     # render the module's html and insert it into a free slot
