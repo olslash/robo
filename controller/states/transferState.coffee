@@ -9,7 +9,7 @@ Transfer.create = ->
   window.socket.emit('ship-data', @serializedShipData)
   # local Phaser game is no longer needed-- transition to the HTML controller
   @game.destroy()
-  $('canvas').hide()
+#  $('canvas').hide()
 
 Transfer.update = ->
 
