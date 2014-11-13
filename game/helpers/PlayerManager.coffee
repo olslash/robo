@@ -5,20 +5,20 @@
 
 class PlayerManager
   constructor: (@game) ->
-    @connectedControllers = {}
+    @connectedPlayers = {}
 
   registerController: (controllerId) ->
-    console.log @
-    @connectedControllers[controllerId] = {
+    @connectedPlayers[controllerId] = {
       connected: true,
       ship: {}
     }
 
   unregisterController: (controllerId) ->
-    @connectedControllers[controllerId]?.ship.destroy?()
-    delete @connectedControllers[controllerId]
+    @connectedPlayers[controllerId]?.ship.destroy?()
+    delete @connectedPlayers[controllerId]
 
   registerShip: (shipInstance, {controllerId}) ->
-    @connectedControllers[controllerId].ship = shipInstance
+    console.log 'instance', shipInstance
+    @connectedPlayers[controllerId].ship = shipInstance
 
 module.exports = PlayerManager

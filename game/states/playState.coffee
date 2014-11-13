@@ -1,7 +1,9 @@
 Play = new Phaser.State()
 
-Play.preload = ->
-
 Play.create = ->
-  console.log 'in play state'
+  console.log @game.playerManager
+  for _, player of @game.playerManager.connectedPlayers
+#    player.ship.game = @game
+#    console.log player.ship
+    @game.add.existing(player.ship)
 module.exports = Play

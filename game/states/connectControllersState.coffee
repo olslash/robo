@@ -38,7 +38,7 @@ ConnectControllers.create = ->
 
 
 ConnectControllers.update = ->
-  connectedPlayers = Object.keys(@game.playerManager.connectedControllers)
+  connectedPlayers = Object.keys(@game.playerManager.connectedPlayers)
   @updatePlayersConnectedText(connectedPlayers.length)
 
 
@@ -56,7 +56,7 @@ ConnectControllers.updatePlayersConnectedText = (numConnectedPlayers) ->
     @startButton.kill()
 
 ConnectControllers.startGame = ->
-  @game.state.start 'Play', false
+  @game.state.start 'Play'
 
 ConnectControllers.makeGameCode = ->
   Math.floor(Math.random() * 99999)
