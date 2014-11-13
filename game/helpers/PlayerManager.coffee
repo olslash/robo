@@ -15,7 +15,7 @@ class PlayerManager
       }
 
   unregisterController: (controllerId) ->
-    @connectedPlayers[controllerId]?.ship.destroy?()
+    @connectedPlayers[controllerId]?.ship.destroy?(true, true)
     delete @connectedPlayers[controllerId]
 
   registerShip: (shipInstance, {controllerId}) ->
