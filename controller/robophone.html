@@ -9,21 +9,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="cleartype" content="on">
 
-    <!--<link rel="stylesheet" href="vendor/normalize.css">-->
-    <!--<link rel="stylesheet" href="vendor/foundation.min.css">-->
-    <link rel="stylesheet" href="controller.css">
+    <link rel="stylesheet" type="text/css" href="/build/controller.css">
 </head>
 <body>
 
 <div id="register-screen">
-    register screen
     <form id="gamecode">
         <input type="number" value="" placeholder="enter a game number">
         <input type="submit" value="Connect!">
     </form>
 </div>
 <div id="controller">
-    controller screen
+    <div id="left">
+        <div id="stick-container">
+            <div id="stick"></div>
+        </div>
+    </div>
+    <div id="center">
+        <div class="button">4</div>
+        <div class="button">1</div>
+        <div class="button">2</div>
+        <div class="button">3</div>
+    </div>
+    <div id="right">
+        <div class="top container">
+            <div class="slant-container container">
+
+                <div class="slant slant-top">
+                    <div class="slant-content">
+                        2
+                    </div>
+                </div>
+                <div class="slant slant-bottom">
+                    <div class="slant-content">
+                        1
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="left">
+                4
+            </div>
+            <div class="right">
+                3
+            </div>
+
+        </div>
+        <div class="middle container"></div>
+        <div class="bottom container">
+            <div class="slant-container container">
+
+                <div class="slant slant-top">
+                    <div class="slant-content">
+                        1
+                    </div>
+                </div>
+                <div class="slant slant-bottom">
+                    <div class="slant-content">
+                        2
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="left">
+                4
+            </div>
+            <div class="right">
+                3
+            </div>
+        </div>
+    </div>
+
 </div>
 <script src="/build/jquery.min.js"></script>
 <!--<script src="https://cdn.socket.io/socket.io-1.1.0.js"></script>-->
@@ -32,21 +90,31 @@
 <script src="/build/phaser.min.js"></script>
 <script src="/build/controller.js"></script>
 
-<!--<script>-->
-<!--$(document).ready(function () {-->
-<!--$('#gamecode').submit(function (event) {-->
-<!--data = +$('#gamecode input:first').val();-->
+<script>
+    // handle horizontal alignment of slanted divs
+    var slantTops = $('.slant-top');
+    var slantBottoms = $('.slant-bottom');
 
-<!--if (data > 0 && socketConnected) {-->
-<!--socket.emit('registerController', data)-->
-<!--}-->
-<!--$('.register-screen').hide();-->
-<!--$('.controller').show();-->
-<!--window.loadGame();-->
-<!--event.preventDefault();-->
-<!--});-->
-<!--});-->
+    function alignSlants() {
+        var slantTransform = slantTops.first().css('transform');
+        var skewRadians = slantTransform.split(', ')[2];
+        var height = slantTops.first().height();
+        var requiredOffset = skewRadians * height;
+        var newTransformTop = slantTransform.split(', ');
+        var newTransformBottom = slantTransform.split(', ');
 
-<!--</script>-->
+        newTransformTop[4] = -(requiredOffset / 2);
+        newTransformBottom[4] = requiredOffset / 2;
+
+        slantTops.css('transform', newTransformTop.join(', '));
+        slantBottoms.css('transform', newTransformBottom.join(', '));
+    }
+
+    alignSlants();
+
+    $( window ).resize(function() {
+        alignSlants()
+    });
+</script>
 </body>
 </html>

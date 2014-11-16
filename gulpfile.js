@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
   coffeeify = require('gulp-coffeeify'),
+  stylus = require('gulp-stylus'),
   source = require('vinyl-source-stream'),
   jshint = require('gulp-jshint'),
   // uglify = require('gulp-uglify'),
@@ -7,19 +8,7 @@ var gulp = require('gulp'),
   notify = require('gulp-notify'),
   del = require('del');
 
-gulp.task('default', ['browserify']);
-
-// gulp.task('scripts', function() {
-//   return gulp.src(['game/**/*.js', 'game/*.js'])
-//     // .pipe(jshint('.jshintrc'))
-//     // .pipe(jshint.reporter('default'))
-//     .pipe(concat('app.js'))
-//     .pipe(gulp.dest('build'))
-//     // .pipe(rename({suffix: '.min'}))
-//     // .pipe(uglify())
-//     // .pipe(gulp.dest('dist/assets/js'))
-//     .pipe(notify({ message: 'Scripts task complete' }));
-// });
+gulp.task('default', ['browserify', 'stylus']);
 
 gulp.task('browserify', function() {
   // return browserify('./game/game.coffee')
@@ -39,14 +28,20 @@ gulp.task('browserify', function() {
       .pipe(notify({message: 'Controller Browserify task complete'}));
 });
 
+gulp.task('stylus', function() {
+    gulp.src('./controller/controller.styl')
+        .pipe(stylus())
+        .pipe(gulp.dest('./build'));
+});
+
 gulp.task('clean', function(cb) {
   del(['build/'], cb);
 });
 
 gulp.task('watch', function() {
 
-  // Watch .scss files
-  // gulp.watch('src/styles/**/*.scss', ['styles']);
+  // Watch .styl files
+  gulp.watch('**/*.styl', ['stylus']);
 
   // Watch .js files
   gulp.watch('**/*.coffee', ['browserify']);
