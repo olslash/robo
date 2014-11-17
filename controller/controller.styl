@@ -96,21 +96,38 @@ html, body
         position: relative
         left: -50%
         background-color: skyblue
+        z-index: 100
+
+        .content
+            /*don't skew content*/
+            transform: skewX(30deg)
+            -webkit-transform: skewX(30deg)
+
+            text-align: center
+        img
+            height: 50%
+            width: 50%
 
     .slant-top
         transform: skewX(-30deg) translate(15px, 0px)
         -webkit-transform: skewX(-30deg) translate(15px, 0px)
 
+
     .slant-bottom
         transform: skewX(-30deg) translate(-15px, 0px)
         -webkit-transform: skewX(-30deg) translate(-15px, 0px)
 
-    .slant-content
-        /*don't skew content*/
-        transform: skewX(30deg)
-        -webkit-transform: skewX(30deg)
 
-        text-align: center
-    img
-        height: 50%
-        width: 50%
+
+.button
+    position: relative
+    -webkit-box-shadow: inset 0px -5px 0px 10px rgba(0,0,0,0.75);
+    -moz-box-shadow: inset 0px -5px 0px 10px rgba(0,0,0,0.75);
+    box-shadow: inset 0px -5px 0px 10px rgba(0,0,0,0.75);
+    &:hover
+        -webkit-box-shadow: inset 0px 5px 0px 10px rgba(0,0,0,0.75);
+        -moz-box-shadow: inset 0px 5px 0px 10px rgba(0,0,0,0.75);
+        box-shadow: inset 0px 5px 0px 10px rgba(0,0,0,0.75);
+        .content
+            position: relative
+            top: 10px
